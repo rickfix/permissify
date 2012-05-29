@@ -1,4 +1,4 @@
-module Permissions::ModelClass
+module Permissify::ModelClass
   def retire_permissions_objects(retire_sql)
     ActiveRecord::Base.connection.execute retire_sql
   end

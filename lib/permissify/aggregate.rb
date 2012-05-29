@@ -1,4 +1,4 @@
-module Permissions::Aggregate
+module Permissify::Aggregate
   attr_accessor :abilities
   
   def permissions_union # [integer values].max

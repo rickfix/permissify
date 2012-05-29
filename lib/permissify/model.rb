@@ -1,4 +1,4 @@
-module Permissions::Model
+module Permissify::Model
   attr_accessor :from, :from_permissions_model
   
   def establish_from_permissions_model
