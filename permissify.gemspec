@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "permissify"
-  s.version     = "0.0.1"
+  s.version     = "0.0.2"
   s.author      = "Frederick Fix"
   s.email       = "rickfix80004@gmail.com"
   s.homepage    = "http://github.com/rickfix/permissify"
