@@ -1,9 +1,9 @@
 class Role < ActiveRecord::Base
   DOMAIN_TYPES = %w(Admin Dealer Corporate Brand Merchant)
-  include Permissions::Model
+  include Permissify::Model
   # is_paranoid
-  has_and_belongs_to_many :users, :order => "userable_type ASC"
   # default_scope :conditions => {:deleted_at => nil}, :order => "roles.name"
+  has_and_belongs_to_many :users
   validates_presence_of   :name, :domain_type
   validates_uniqueness_of :name
   before_create :initialize_permissions
@@ -13,14 +13,14 @@ class Role < ActiveRecord::Base
   after_save :propagate_managed_by
     
   class << self
-    include Permissions::ModelClass
+    include Permissify::ModelClass
     include SystemFixtures::Roles
-    def super_user;       locate(1, 'super user');      end
-    def system_admin;     locate(2, 'system admin');    end
-    def dealer_admin;     locate(3, 'dealer admin');    end
-    def corporate_admin;  locate(4, 'corporate admin'); end
-    def brand_admin;      locate(5, 'brand admin');     end
-    def merchant_admin;   locate(6, 'merchant admin');  end
+    # def super_user;       locate(1, 'super user');      end
+    # def system_admin;     locate(2, 'system admin');    end
+    # def dealer_admin;     locate(3, 'dealer admin');    end
+    # def corporate_admin;  locate(4, 'corporate admin'); end
+    # def brand_admin;      locate(5, 'brand admin');     end
+    # def merchant_admin;   locate(6, 'merchant admin');  end
   end
   
   def initialize_non_permission_values

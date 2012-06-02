@@ -10,6 +10,13 @@ class Ability
       applicability_types = [applicability_types] if applicability_types.kind_of?(String)
       all.select{|a| (a[:applicability] & applicability_types) == applicability_types}
     end
+
+    def add_category(category, section, applicability=['Role'], actions=%w(View Create Update Delete), category_allows = :multiple)
+      actions = [actions] unless actions.kind_of?(Array)
+      actions.collect do |action|
+        add("#{key_token(category)}_#{key_token(action)}", category, section, action, applicability, 1, actions.index(action)+1, [false], '', category_allows)
+      end
+    end
     
     def create_permissions_hash(view_only_categories=[], remove_categories=[], applicability_types = 'Role')
       @@permissions = {}
@@ -20,6 +27,7 @@ class Ability
     end
     
     private
+    def key_token(token); token.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_'); end
     def view_only(category); %w(create update delete).each{|action| @@permissions.delete("#{category}_#{action}")};  end
     def remove(permission_prefix); @@permissions.keys.each{|key| @@permissions.delete(key) if key.starts_with?(permission_prefix)}; end
     def add(key, category, section, action, applicability, number_of_values, position, default_values, admin_expression='', category_allows = :multiple)

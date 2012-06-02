@@ -5,6 +5,8 @@ module Permissify
 
       def generate_ability
         copy_file "ability.rb", "app/models/ability.rb"
+        empty_directory "app/models/system_fixtures"
+        copy_file "abilities.rb", "app/models/system_fixtures/abilities.rb"
       end
     end
   end

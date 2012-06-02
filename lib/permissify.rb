@@ -1,3 +1,5 @@
 require 'permissify/aggregate'
+require 'permissify/controller'
 require 'permissify/model'
 require 'permissify/model_class'
+require 'permissify/roles'
