@@ -1,0 +1,26 @@
+<table>
+  <tbody>
+    <tr>
+      <td colspan="3">
+        <br/>
+        <strong>
+          <a onclick="$('af_permissions_categories').toggle(); $('#af_permissions_categories').toggle(); return false;" style="color:#0A5DBB;">
+            Permissions Cross-reference
+          </a>
+        </strong>
+        <div id='af_permissions_categories' style='display:none;'>
+          <br/>
+          <table>
+            <tbody>
+              <%= @section_prefix = 'af_'
+                  @permissions_partial = :aggregate_permissions
+                  render(:partial => 'permissions/section', :collection => permissions_sections)
+              %>
+            </tbody>
+          </table>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br/>

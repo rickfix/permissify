@@ -1,0 +1,12 @@
+<h1 class="pageName" id='permissions_header'>
+  <%= render :partial => "permissions/list_header" %>
+</h1>
+
+<table width='100%'>
+  <tbody id='permissions'>
+    <% permissions_group.each do |@permissions_object| %><%= render :partial => 'permissions/row' %><% end %>
+  </tbody>
+  <%= render(:partial => "permissions/add_form") if allowed_to?(:create, @permissions_category) %>
+</table>
+
+<%= render(:partial => "permissions/cross_reference") %>

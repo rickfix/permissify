@@ -1,0 +1,52 @@
+<script type="text/javascript">
+  function fixme() {}
+  function toggle_views() {
+    $('#permissions_form').toggle();
+    $('#permissions_list').toggle();
+    return false;
+  }
+  function toggle_color_coded_permission(permission_id, permission_checkbox) {
+    permission_link = document.getElementById(permission_id)
+    if (permission_checkbox.checked == true) {
+      permission_checkbox.checked = false;
+      permission_link.style.color = 'red';
+    } else {
+      permission_checkbox.checked = true;
+      permission_link.style.color = 'green';
+    }
+  }
+  function clear_all_in_category(element_in_category, permissions_prefix) {
+    var was_not_set = element_in_category.style.color == 'red';
+    var links = element_in_category.parentNode.getElementsByTagName('a');
+    for(var i = 0; i < links.length; i++){
+      clear_permission(links[i], permissions_prefix)
+    }
+    if (was_not_set == true) {
+      toggle_color_coded_permission(element_in_category.id, permission_checkbox(element_in_category, permissions_prefix))
+    }
+  }
+  function clear_permission(permission_link, permissions_prefix) {
+    permission_checkbox(permission_link, permissions_prefix).checked = false;
+    permission_link.style.color = 'red';
+  }
+  function permission_checkbox(permission_link, permissions_prefix) {
+    return document.getElementById(permissions_prefix + 'permissions_' + permission_link.id + '_0')
+  }
+  function show_copy_form(copy_from_id) {
+    $('.copy_form').hide();
+    $('.copy_link').show();
+    $('#copy_link_'+copy_from_id).hide();
+    $('#copy_form_'+copy_from_id).show();
+    $('#name_'+copy_from_id).focus();
+    $('#name_'+copy_from_id).select();
+    $('#add'+copy_from_id+'_errors').hide();
+    return false;
+  }
+  function cancel_copy(copy_from_id) {
+    $('#copy_link_'+copy_from_id).show();
+    $('#copy_form_'+copy_from_id).hide();
+    return false;
+  }
+</script>
+<div id="permissions_form" style="display: none;"></div>
+<div id="permissions_list"><%= render :partial => "permissions/list" %></div>

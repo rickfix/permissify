@@ -1,0 +1,6 @@
+<tr style="vertical-align:text-top;">
+  
+  <td style="width:205px">&nbsp;&nbsp;&nbsp;<a onclick="$('<%=category_name%>').toggle();"><%= @category %></a></td>
+  
+  <td><%= render(:partial => "permissions/#{@permissions_partial}") %></td>
+</tr>

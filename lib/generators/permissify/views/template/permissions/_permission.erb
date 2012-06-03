@@ -1,0 +1,11 @@
+<tr>
+  <td>
+    <label>
+      <%= check_box_tag "#{@permissions_name}[permissions][#{@permission[:key]}][0]", 1,
+                        (@permissions_object.permissions[@permission[:key]]['0'] == '1' rescue false),
+                        :onchange => "toggle_color_coded_permission('#{@permission[:key]}', this.checked);" %>
+      <%= @permission[:action] %> 
+    </label>
+    <%= permission_values %>
+  </td>
+</tr>

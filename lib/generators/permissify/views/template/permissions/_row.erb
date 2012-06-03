@@ -1,0 +1,21 @@
+<%- set_tag @permissions_object %>
+<%- saved = params[:id] && params[:id].to_i == @permissions_object.id %>
+<tr class="<%= cycle('odd', 'even') %>" id="<%=data_tag%>" <%= "style='background-color:palegreen;'" if saved %> >
+  
+  <td><%= link_to permissions_group_name, edit_url, :method => :get, :remote => true, :id => "#{edit_tag}" %></td>
+  <%= render(:partial => 'additional_index_columns') %>
+  <td>
+    <%- if allowed_to?(:delete, @permissions_category) %>
+      <span id="<%=delete_tag%>">
+        &nbsp;<%= link_to("delete", form_path, :method => 'delete', :remote => true) unless @permissions_object.class.seeded?(@permissions_object) %>
+      </span>
+    <%- end %>
+  </td>
+  
+  <td>
+    <%= render(:partial => 'permissions/copy_controls') if allowed_to?(:create, @permissions_category) %>
+  </td>
+  
+  <td id="<%=status_tag%>"></td>
+  
+</tr>

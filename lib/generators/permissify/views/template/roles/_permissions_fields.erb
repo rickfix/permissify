@@ -1,0 +1,27 @@
+<tr>
+  <td><%= label :role, :name, "Name"%></td>
+  <td><b><%= @role.name %></b></td>
+</tr>
+
+<tr>
+  <td style="vertical-align:text-top;"><%= label :role, :domain_type, "Domain Type" %></td>
+  <td><%= select :role, :domain_type, Role::DOMAIN_TYPES %></td>
+</tr>
+
+<tr>
+  <td>
+    <%= label :role, :can_manage_roles, "Manages users with roles" %>
+  </td>
+  <td>
+    <%= label :role, :managed_by, "Managed by users with roles" %>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <%= select :role, :can_manage_roles, all_roles_grouped_by_domain_type.collect(&:name) - [@role.name], {}, {:multiple => true, :size => [all_roles.size, 12].min} %>
+  </td>
+  <td>
+    <%= select :role, :managed_by, all_roles_grouped_by_domain_type.collect(&:name), {}, {:multiple => true, :size => [all_roles.size, 12].min} %>
+  </td>
+</tr>

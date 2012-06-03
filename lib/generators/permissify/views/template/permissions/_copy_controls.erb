@@ -1,0 +1,31 @@
+<%= form_for Role.new, :remote => true do |f| %>
+  <div id="copy_form_<%= @permissions_object.id %>" style="display:none;background-color:#fffff0;padding:3px;" class="copy_form">
+  
+    <%= f.text_field :name, :value => @permissions_object.name + ' copy', :maxlength => 31, :size => 17 %>
+  
+    &nbsp;&nbsp;
+  
+    <div class="buttonContainer newBtn">
+      <input type="submit" value="copy" class="fncyBtn"/>
+      <!-- TODO : figure out how to get the :with stuff specified below to actually post -->
+      <!-- %= link_to  "copy", "/roles",
+                          { :method => :post,
+                            :remote => true,
+                            :class => 'fncyBtn',
+                            :with => "'create[from]=#{@permissions_object.id}&create[name]='+document.getElementById(\"create_name#{@permissions_object.id}\").value"
+                          }
+      % -->
+    </div>
+  
+    <br/><br/>
+  
+    <div id="add<%= @permissions_object.id %>_errors" style="display:none;"></div>
+    
+    <a href="#" onclick="return cancel_copy(<%= @permissions_object.id %>);">cancel</a>
+  
+  </div>
+  &nbsp;
+  <a href="#" id="copy_link_<%= @permissions_object.id %>" onclick="return show_copy_form(<%= @permissions_object.id %>)" class="copy_link">
+    copy
+  </a>
+<%- end %>

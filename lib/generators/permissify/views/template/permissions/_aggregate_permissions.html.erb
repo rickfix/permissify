@@ -1,0 +1,7 @@
+<% category_permissions.each do |@permission| %>
+  <% next if (@permission[:key] == 'corporate_portal_delete') || (@permission[:key] == 'brand_portal_delete') %>
+  <%- mthp = models_that_have_permission %>
+  <a href='#' title='<%=mthp%>' style='color:<%= mthp == 'none' ? 'red':'green' %>'>
+    <%= @permission[:action] %>
+  </a>&nbsp;&nbsp;
+<% end %>

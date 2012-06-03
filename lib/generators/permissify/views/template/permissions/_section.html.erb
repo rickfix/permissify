@@ -1,0 +1,18 @@
+<%- @section = section %>
+<tr>
+  <td colspan="3">
+    <strong>
+      &nbsp;<a onclick="$('#<%=@section_prefix+@section.gsub(' ','_').gsub(':','')%>').toggle(); return false;" style="color:#67B1E6"><%= @section %></a>
+    </strong>
+    <div id="<%=@section_prefix+@section.gsub(' ','_').gsub(':','')%>" class="permissionsCategory" style="display:none">
+      <table>
+        <tbody>
+          <%- section_categories.each do |@category| %>
+            <%= render :partial => 'permissions/permission_category' %>
+          <%- end %>
+        </tbody>
+      </table>
+    </div>
+    <br/>&nbsp;
+  </td>
+</tr>

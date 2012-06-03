@@ -1,0 +1,4 @@
+$("#permissions_list").hide();
+$("#permissions_form").show();
+$("#permissions_form").html("<%= escape_javascript(render(:partial => 'permissions/form')) %>");
+$("#role_name").focus().select();
