@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
   s.name        = "permissify"
-  s.version     = "0.0.10"
+  s.version     = "0.0.11"
   s.author      = "Frederick Fix"
   s.email       = "rickfix80004@gmail.com"
   s.homepage    = "http://github.com/rickfix/permissify"
   s.summary     = "Not so simple authorization solution for Rails."
-  s.description = "Not so simple authorization solution for Rails."
+  s.description = "A not so simple authorization solution for Rails."
 
   s.files        = Dir["{lib,spec}/**/*", "[A-Z]*", "init.rb"] - ["Gemfile.lock"]
   s.require_path = "lib"
