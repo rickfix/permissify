@@ -1,5 +1,6 @@
 class Role < ActiveRecord::Base
   DOMAIN_TYPES = %w(Admin Dealer Corporate Brand Merchant)
+  # DOMAIN_TYPES = %w(Admin Operations CallCenter)
   include Permissify::Model
   # is_paranoid
   # default_scope :conditions => {:deleted_at => nil}, :order => "roles.name"
@@ -15,12 +16,6 @@ class Role < ActiveRecord::Base
   class << self
     include Permissify::ModelClass
     include SystemFixtures::Roles
-    # def super_user;       locate(1, 'super user');      end
-    # def system_admin;     locate(2, 'system admin');    end
-    # def dealer_admin;     locate(3, 'dealer admin');    end
-    # def corporate_admin;  locate(4, 'corporate admin'); end
-    # def brand_admin;      locate(5, 'brand admin');     end
-    # def merchant_admin;   locate(6, 'merchant admin');  end
   end
   
   def initialize_non_permission_values

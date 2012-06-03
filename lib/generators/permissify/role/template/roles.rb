@@ -1,5 +1,6 @@
 module SystemFixtures::Roles
   SEEDED_ORDERED_ROLES  = ['super user', 'system admin', 'dealer admin', 'corporate admin', 'brand admin', 'merchant admin']
+  # SEEDED_ORDERED_ROLES  = ['super user', 'system admin', 'operations agent', 'call center agent']
   SEED_SPECIFICATIONS   = (1..SEEDED_ORDERED_ROLES.length).zip(SEEDED_ORDERED_ROLES)
 
   def seeded?(role); role.id <= SEEDED_ORDERED_ROLES.length; end

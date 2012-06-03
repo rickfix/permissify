@@ -4,12 +4,10 @@ module Permissify
       source_root File.expand_path('../template', __FILE__)
 
       def generate_views
-        copy_file "role.rb", "app/views/role.rb"
-        copy_file "roles.rb", "app/views/system_fixtures/roles.rb"
-
-        directory "app/views/permissions"
-
-        empty_directory "app/views/roles"
+        copy_file "permissions_helper.rb", "app/helpers/permissions_helper.rb"
+        copy_file "roles_helper.rb", "app/helpers/roles_helper.rb"
+        directory "permissions", "app/views/permissions"
+        directory "roles", "app/views/roles"
       end
     end
   end

@@ -1,6 +1,1 @@
-<%- if @saved %>
-  window.location = "/roles?id=<%= @permissions_object.id %>"
-<%- else %>
-  set_page_tag page, @permissions_object
-  edit_model "#permissions_list", "#permissions_form", "#{@permissions_prefix}name"
-<%- end %>
+window.location = "/roles?id=<%= @permissions_object.id %>"

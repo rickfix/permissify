@@ -1,0 +1,5 @@
+$("#permissions_header").html("<%= "#{permissions_group.size} #{@permissions_header}#{permissions_group.size == 1 ? '' : 's'}" %>");
+$("#delete_role_<%= @permissions_object.id.to_s %>").html("DELETED");
+$("#data_role_<%= @permissions_object.id.to_s %>").addClass('deletedRole');
+$("#data_role_<%= @permissions_object.id.to_s %>").slideUp(3000);
+// $("#errors_role_<%= @permissions_object.id.to_s %>").remove();

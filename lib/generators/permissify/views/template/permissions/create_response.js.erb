@@ -1,0 +1,21 @@
+<%- if @response_message.blank? %>
+  $("#permissions_header").html("<%= escape_javascript(render(:partial => 'permissions/list_header')) %>");
+  $("#permissions").append("<%= escape_javascript(render(:partial => 'permissions/row')) %>");
+  $("#role_name").val("");
+  $("#add<%= @permissions_object.from %>_errors").hide();
+  $("form.new_role input#role_name").val("");
+
+  <%- if @permissions_object.from %>
+    $("#copy_form_<%= @permissions_object.from %>").hide();
+    $("#copy_link_<%= @permissions_object.from %>").show();
+  <%- end %>
+
+  $("#permissions_list").hide();
+  $("#permissions_form").html("<%= escape_javascript(render(:partial => 'permissions/form')) %>");
+  $("#permissions_form").show();
+  $("#<%= @permissions_prefix %>name").focus();
+<%- else %>
+  $("#add<%= @permissions_object.from %>_errors").html( "<%= truncate(@response_message, :length => 253) %>");
+  $("#add<%= @permissions_object.from %>_errors").show();
+  $("#form.new_role input.role_name").focus();
+<%- end %>
