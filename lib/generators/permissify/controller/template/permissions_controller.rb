@@ -38,10 +38,8 @@ class PermissionsController < ApplicationController
     class_attributes ||= {}
     # @saved = @permissions_object.update_attributes class_attributes.merge(permission_attributes)
     attrs = class_attributes.merge(permission_attributes)
-    @permissions_object.domain_type = attrs[:domain_type]
-    @permissions_object.managed_by = attrs[:managed_by]
-    @permissions_object.can_manage_roles = attrs[:can_manage_roles]
     @permissions_object.permissions = attrs[:permissions]
+    set_permissions_object_specific_values(attrs)
     # @permissions_object.attributes = class_attributes.merge(permission_attributes)
     @saved = @permissions_object.save
     js_response

@@ -21,7 +21,7 @@
         <td></td>
         <td colspan="2">
           <%- if allowed_to?(:update, @permissions_category) %>
-            <input type="submit" value="Save"/> or
+            <input type="submit" value="save" class="fncyBtn"/> or
           <%- end %>
           <a href="#" onclick="toggle_views(); self.scrollTo(0, 0); $('af_permissions_categories').hide();">cancel</a>
         </td>

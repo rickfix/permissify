@@ -4,18 +4,25 @@ module SystemFixtures::Roles
   SEED_SPECIFICATIONS   = (1..SEEDED_ORDERED_ROLES.length).zip(SEEDED_ORDERED_ROLES)
 
   def seeded?(role); role.id <= SEEDED_ORDERED_ROLES.length; end
-  def seed; create_seeds :roles, SEED_SPECIFICATIONS; end
+  def seed
+    create_seeds :roles, SEED_SPECIFICATIONS
+    Role.find(1).manage_ids = [2,3,4,5,6]
+    Role.find(2).manage_ids = [2,3,4,5,6]
+    Role.find(3).manage_ids = [3,4,5,6]
+    Role.find(4).manage_ids = [4,5,6]
+    Role.find(5).manage_ids = [6]
+    Role.find(6).manage_ids = [6]
+  end
   
-  def create_super_user;      create_with(1, SEEDED_ORDERED_ROLES,       'Admin')     ; end
-  def create_system_admin;    create_with(2, SEEDED_ORDERED_ROLES[1..5], 'Admin')     ; end
-  def create_dealer_admin;    create_with(3, SEEDED_ORDERED_ROLES[2..5], 'Dealer')    ; end
-  def create_corporate_admin; create_with(4, SEEDED_ORDERED_ROLES[3..5], 'Corporate') ; end
-  def create_brand_admin;     create_with(5, ['Merchant'], 'Brand')                   ; end
-  def create_merchant_admin;  create_with(6, ['Merchant'], 'Merchant')                ; end
+  def create_super_user;      create_with(1, 'Admin')     ; end
+  def create_system_admin;    create_with(2, 'Admin')     ; end
+  def create_dealer_admin;    create_with(3, 'Dealer')    ; end
+  def create_corporate_admin; create_with(4, 'Corporate') ; end
+  def create_brand_admin;     create_with(5, 'Brand')     ; end
+  def create_merchant_admin;  create_with(6, 'Merchant')  ; end
   
-  def create_with(id, other_roles, domain_type)
+  def create_with(id, domain_type)
     role = create_with_id(:role, id, SEED_SPECIFICATIONS.assoc(id)[1])
-    role.can_manage_roles = other_roles
     role.domain_type = domain_type
     role.save
     role

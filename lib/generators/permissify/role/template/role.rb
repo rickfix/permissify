@@ -10,9 +10,9 @@ class Role < ActiveRecord::Base
   before_create :initialize_permissions
   before_validation :initialize_non_permission_values
   serialize :permissions
-  serialize :can_manage_roles
-  after_save :propagate_managed_by
-    
+  has_and_belongs_to_many :managers, :class_name => 'Role', :join_table => :manages_roles, :association_foreign_key => :manage_id, :foreign_key => :role_id
+  has_and_belongs_to_many :manages, :class_name => 'Role', :join_table => :manages_roles, :association_foreign_key => :role_id, :foreign_key => :manage_id
+  
   class << self
     include Permissify::ModelClass
     include SystemFixtures::Roles
@@ -23,39 +23,15 @@ class Role < ActiveRecord::Base
   end
   
   def default_non_permissions_values
-    self.can_manage_roles ||= []
     self.domain_type = DOMAIN_TYPES.last if self.domain_type.blank?
     self.name = self.name.gsub("'","")
   end
   
   def copy_non_permissions_values
     self.domain_type = self.from_permissions_model.domain_type
-    self.managed_by  = self.from_permissions_model.managed_by
-    self.can_manage_roles = self.from_permissions_model.can_manage_roles
-  end
-  
-  def manages_roles
-    return [] if quoted_role_names.blank?
-    self.class.find(:all, :conditions => ["name in (#{quoted_role_names})"], :order => :name)
+    self.managers = self.from_permissions_model.managers
+    self.manages = self.from_permissions_model.manages
   end
   
   def remove(permissions_list); permissions_list.each{|permission| self.permissions.delete(permission)}; save; end
-  
-  def quoted_role_names; self.can_manage_roles.collect{|n| "'#{n}'"}.join(', ') rescue []; end
-  
-  def managed_by=(role_name_list); @managed_by = role_name_list; end
-  def managed_by
-    @managed_by ||= Role.all.select{|r| r.can_manage_roles.include?(self.name)}.collect(&:name)
-  end
-  
-  def propagate_managed_by
-    Role.all.each{ |r| r.update_manages_roles(managed_by.include?(r.name), self.name) } unless @managed_by.nil?
-  end
-  
-  def update_manages_roles(manages_role_name, role_name)
-    old = self.manages_roles
-    old = [] if old.blank?
-    new_value = manages_role_name ? old | [role_name] : old - [role_name]
-    update_attribute(:can_manage_roles, new_value) if old != new_value
-  end
 end
