@@ -29,14 +29,14 @@ module SystemFixtures::Roles
   end
   
   def super_user_permissions
-    @@permissions = Ability.create_permissions_hash
+    Ability.create_permissions_hash
   end
   def system_admin_permissions
-    @@permissions = Ability.create_permissions_hash 'roles'
+    Ability.create_permissions_hash 'roles'
   end
   def dealer_admin_permissions
-    @@permissions = Ability.create_permissions_hash( [], %w(roles admin))
-    remove %w(tabs_admin)
+    Ability.create_permissions_hash( [], %w(roles admin))
+    Ability.remove_permissions %w(tabs_admin)
   end
   
   def corporate_admin_permissions
@@ -44,17 +44,15 @@ module SystemFixtures::Roles
   end
   def brand_admin_permissions
     msa_permissions %w(corporate brand_portal_create brand_portal_update)
-    remove %w(tabs_corporate)
+    Ability.remove_permissions %w(tabs_corporate)
   end
   def merchant_admin_permissions
     msa_permissions %w(corporate brand)
-    remove %w(tabs_brand tabs_corporate)
+    Ability.remove_permissions %w(tabs_brand tabs_corporate)
   end
   def msa_permissions(exclude_abilities)
     no_abilities = exclude_abilities + %w(admin roles dealer)
-    @@permissions = Ability.create_permissions_hash([], no_abilities)
-    remove %w(tabs_admin tabs_dealer)
+    Ability.create_permissions_hash([], no_abilities)
+    Ability.remove_permissions %w(tabs_admin tabs_dealer)
   end
-
-  def remove(permissions); permissions.each{|permission| @@permissions.delete(permission.to_s)}; @@permissions; end
 end

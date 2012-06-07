@@ -1,3 +1,4 @@
+require 'permissify/ability_class'
 require 'permissify/aggregate'
 require 'permissify/controller'
 require 'permissify/model'

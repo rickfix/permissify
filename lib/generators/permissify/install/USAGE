@@ -1,0 +1,4 @@
+Description:
+  The permissify:install generator creates migrations to establish the roles and associated manages_roles and roles_users join tables.
+  Inspect and modify these migrations to fit your implementation/adaptation.
+  When satisfied, run bundle exec rake db:migrate
