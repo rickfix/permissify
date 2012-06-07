@@ -14,7 +14,7 @@ describe Permissify::ModelClass do
     end
   end
       
-  describe 'create_with_id(table, id, name)' do
+  describe 'create_with_id' do
     it 'should create a new object, set its name, permissions, save it, force its id and then find it' do
       PermissifiedModel.should_receive(:name_permissions).and_return(:permissions_for_name)
       PermissifiedModel.should_receive(:new).and_return(mocked_permissions_model = mock())
@@ -27,7 +27,7 @@ describe Permissify::ModelClass do
     end
   end
 
-  describe 'locate(id, name)' do
+  describe 'locate' do
     it 'should return model corresponding to input id when model with id exists' do
       mock_find_by_id :model_from_find_by_id
       PermissifiedModel.locate(:input_model_id, :input_model_id_name).should == :model_from_find_by_id
@@ -44,7 +44,7 @@ describe Permissify::ModelClass do
     end
   end
   
-  describe 'underscored_name_symbol(name)' do
+  describe 'underscored_name_symbol' do
     it 'should return a string' do
       PermissifiedModel.underscored_name_symbol(:symbol).class.name.should == 'String'
     end

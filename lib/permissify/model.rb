@@ -12,17 +12,21 @@ module Permissify
   
     def allows?(ability_key)
       allowed = self.permissions[ability_key];
-      allowed && allowed['0']; 
-      end
+      # allowed && allowed['0']
+      allowed && (allowed['0'] == '1') 
+    end
+
     def remove_permissions(keys)
-      keys = [keys] if keys.class == String
+      keys = [keys] if keys.class != Array
       keys.each{ |k| self.permissions[k] = nil}
       self.save
     end
+    
     def update_permissions(new_or_updated_permissions)
       self.permissions = self.permissions.merge(new_or_updated_permissions)
       self.save
     end
+    
     def underscored_name_symbol; self.class.underscored_name_symbol(self.name); end
   end
 end

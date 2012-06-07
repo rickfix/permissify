@@ -33,8 +33,9 @@ class NoSeedAbility
   end
 end
 
-class PermissifiedModel # < ActiveRecord::Base # TODO : SuperModel? <-- need a gem for this?  is AR needed? mock_model suffice?
-  # include Permissify::Model
+class PermissifiedModel
+  include Permissify::Model
+  attr_accessor :name, :permissions
   class << self
     include Permissify::ModelClass
   end
