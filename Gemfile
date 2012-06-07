@@ -40,13 +40,13 @@
 # 
 # gem 'authlogic', '>= 3.1.0'
 
-source "http://rubygems.org"
+source :rubygems
 
 # gem "sqlite3"
-# TODO : any activerecord version dependency?
 # gem "activerecord", '~> 3.0.9', :require => "active_record"
-gem "activerecord", :require => "active_record"
 # gem "with_model", "~> 0.2.5"
 # gem "meta_where"
 
 gemspec
+
+gem 'rspec'

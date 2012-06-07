@@ -5,7 +5,7 @@ module SystemFixtures::Roles
 
   def seeded?(role); role.id <= SEEDED_ORDERED_ROLES.length; end
   def seed
-    create_seeds :roles, SEED_SPECIFICATIONS
+    create_seeds SEED_SPECIFICATIONS
     Role.find(1).manage_ids = [2,3,4,5,6]
     Role.find(2).manage_ids = [2,3,4,5,6]
     Role.find(3).manage_ids = [3,4,5,6]

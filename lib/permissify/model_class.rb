@@ -1,17 +1,12 @@
 module Permissify
   module ModelClass
-    def retire_permissions_objects(retire_sql)
-      ActiveRecord::Base.connection.execute retire_sql
-    end
-
-    def create_seeds(table_name, seed_specifications)
-      @model_class_seed_specifications = seed_specifications
+    
+    def create_seeds(seed_specifications)
       seed_specifications.each do |id, name|
         permissions_model = locate(id, name)
-        permissions_model.permissions = send("#{underscored_name_symbol(name)}_permissions")
+        permissions_model.permissions = send("#{underscored_name_symbol(name)}_permissions") # interface methods needed for each seeded model
         permissions_model.save
       end
-      ActiveRecord::Base.connection.execute "ALTER TABLE #{table_name} AUTO_INCREMENT = 101;"
     end
 
     def create_with_id(table, id, name)
@@ -20,17 +15,18 @@ module Permissify
       permissions_model.name = name
       permissions_model.permissions = permissions
       permissions_model.save
-      ActiveRecord::Base.connection.execute "UPDATE #{table}s SET id=#{id} WHERE id=#{permissions_model.id};"
+      force_seed_id(table, permissions_model, id) # interface method : force_seed_id
       find(id)
     end
   
     def locate(id, name)
-      model_with_id   = find_by_id(id)
-      model_with_id ||= send("create_#{underscored_name_symbol(name)}")
+      model_with_id   = find_by_id(id) # interface method : ActiveRecord::Base.find_by_id
+      model_with_id ||= send("create_#{underscored_name_symbol(name)}") # interface methods needed for each seeded model
     end
 
     def underscored_name_symbol(name)
-      name.to_s.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_')    
+      name.to_s.downcase.gsub(':','').gsub('-','_').gsub(' ','_').gsub(/__*/,'_')
     end
+    
   end
 end
