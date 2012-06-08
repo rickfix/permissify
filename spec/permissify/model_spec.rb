@@ -39,7 +39,7 @@ describe Permissify::Model do
     end
   end
 
-  describe 'allows?(ability_key)' do
+  describe 'allows?' do
     it 'should return false when ability key is not present in permissions' do
       expect_allows({}, be_false)
     end
@@ -65,7 +65,7 @@ describe Permissify::Model do
     end
   end
   
-  describe 'remove_permissions(keys)' do
+  describe 'remove_permissions' do
     it 'should set permissions value associated with input key(s) to nil' do
       new_model
       @pm.permissions = {:key1 => 1, :key2 => 1}
@@ -75,7 +75,7 @@ describe Permissify::Model do
     end
   end
   
-  describe 'update_permissions(new_or_updated_permissions)' do
+  describe 'update_permissions' do
     before(:each) { new_model }
     it 'should save merged permissions' do
       @pm.should_receive(:permissions).and_return(current_permissions = {})

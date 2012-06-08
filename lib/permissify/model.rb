@@ -27,6 +27,8 @@ module Permissify
       self.save
     end
     
-    def underscored_name_symbol; self.class.underscored_name_symbol(self.name); end
+    def underscored_name_symbol
+      self.class.underscored_name_symbol(self.name)
+    end
   end
 end

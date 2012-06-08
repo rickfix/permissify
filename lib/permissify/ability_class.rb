@@ -46,6 +46,11 @@ module Permissify
       @@permissions.keys.each{ |key| @@permissions.delete(key) if key.start_with?(key_prefix) }
       @@permissions
     end
+
+    def remove_permissions(key_prefixes)
+      key_prefixes.each{ |key_prefix| remove_permission(key_prefix) }
+      @@permissions
+    end
     
     def current_permissions_hash
       @@permissions

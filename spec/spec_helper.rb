@@ -40,3 +40,9 @@ class PermissifiedModel
     include Permissify::ModelClass
   end
 end
+
+class Userish
+  include Permissify::Aggregate
+  PERMISSIFIED_ASSOCIATION = :roles
+  attr_accessor :roles
+end
