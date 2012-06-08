@@ -41,8 +41,19 @@ class PermissifiedModel
   end
 end
 
+class Roleish < PermissifiedModel
+  DOMAIN_TYPES = %w(Admin Dealer Corporate Brand Merchant)
+  attr_accessor :domain_type
+end
+
 class Userish
   include Permissify::Aggregate
+  PERMISSIFIED_ASSOCIATION = :roles
+  attr_accessor :roles
+end
+
+class UserishWithRoles
+  include Permissify::Roles
   PERMISSIFIED_ASSOCIATION = :roles
   attr_accessor :roles
 end

@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe Permissify::Aggregate do
-  before(:each) { new_aggregate; @union = @a.permissions_union}
 
   describe 'permissions_union' do
+    before(:each) { new_aggregate; @union = @a.permissions_union}
+
     it 'should include keys for permissions specified (true or false) in any permissified model' do
       @union.keys.to_set.should == @pms.collect(&:permissions).collect(&:keys).flatten.uniq.to_set
     end
