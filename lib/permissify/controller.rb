@@ -1,15 +1,24 @@
 module Permissify
   module Controller
-        
-    def domain_permissions
-      return current_entity.permissions_union if current_user.nil? # public pages allow corp/brand/merchant product permissions
-      return current_user.permissions_union unless current_entity # admin, by convention, not subscribed to any products
-      current_user.permissions_intersection(current_entity.permissions_union)
-    end
 
     def allowed_to?(action, permission_category)
-      @permissions ||= domain_permissions
-      (@permissions["#{permission_category}_#{action}"]['0'] == true rescue false)
+      (domain_permissions["#{permission_category}_#{action}"]['0'] == true rescue false)
+    end
+    
+    private
+
+    def domain_permissions
+      @permissions ||= determine_domain_permissions
+    end
+
+    def determine_domain_permissions
+      e = current_entity
+      u = current_user
+      if u.nil?
+        e ? e.permissions_union : {}  # public pages display according to just corp/brand/merchant product permissions
+      else
+        e ? u.permissions_intersection(e.permissions_union) : u.permissions_union
+      end
     end
     
   end

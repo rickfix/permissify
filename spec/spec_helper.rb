@@ -57,3 +57,7 @@ class UserishWithRoles
   PERMISSIFIED_ASSOCIATION = :roles
   attr_accessor :roles
 end
+
+class PermissifiedController
+  include Permissify::Controller
+end
