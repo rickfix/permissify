@@ -23,10 +23,6 @@ describe Permissify::AbilityClass do
       it 'should reset abilities' do
         Ability.current.should == []
       end
-
-      it 'should reset applicabilities' do
-        Ability.current_applicabilities.should == []
-      end
     end
 
     describe 'add_category' do
@@ -42,12 +38,6 @@ describe Permissify::AbilityClass do
                                     {:section=>"section2", :category=>"category2", :action=>"Update", :position=>3, :key=>"category2_update", :applicability=>["Role"].to_set, :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false], :any_or_all => :all?},
                                     {:section=>"section2", :category=>"category2", :action=>"Delete", :position=>4, :key=>"category2_delete", :applicability=>["Role"].to_set, :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false], :any_or_all => :all?} ]
       end
-      
-      it 'should keep track of all applicability values' do
-        Ability.add('cat1_action1', 'cat1', '', 'action1', ['User', 'Product'].to_set, :all?, 1, 1, [false])
-        Ability.add('cat2_action2', 'cat2', '', 'action2', ['Product', 'Other'].to_set, :all?, 1, 1, [false])
-        Ability.current_applicabilities.to_set.should == [['User', 'Product'].to_set, ['Product', 'Other'].to_set].to_set
-      end
     end
   end
 
@@ -56,8 +46,8 @@ describe Permissify::AbilityClass do
 
     describe 'create_permissions_hash' do
       before(:each) do
-        Ability.reset; 
-        Ability.seed; 
+        Ability.reset;
+        Ability.seed;
         @ability_key_set = Ability.current.collect{|a| a[:key]}.to_set
       end
 
