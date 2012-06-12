@@ -1,15 +1,13 @@
 module Permissify
   module Controller
 
-    def allowed_to?(action, permission_category)
-      (domain_permissions["#{permission_category}_#{action}"]['0'] == true rescue false)
-    end
-    
-    private
+    include Permissify::Common
 
-    def domain_permissions
-      @permissions ||= determine_domain_permissions
-    end
+     def permissions # interface used by Permissfy::Common.allowed_to?
+       @permissions ||= determine_domain_permissions
+     end
+
+    private
 
     def determine_domain_permissions
       e = current_entity
@@ -17,8 +15,13 @@ module Permissify
       if u.nil?
         e ? e.permissions_union : {}  # public pages display according to just corp/brand/merchant product permissions
       else
-        e ? u.permissions_intersection(e.permissions_union) : u.permissions_union
+        e ? u.permissions_intersection(e) : u.permissions_union
       end
+    end
+    
+    def permissions_intersection(permissified_model)
+      @intersection ||= construct_intersection(permissified_model)
+      @working_permissions = @intersection
     end
     
   end

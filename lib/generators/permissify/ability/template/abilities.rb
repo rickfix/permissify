@@ -7,6 +7,10 @@ module SystemFixtures::Abilities
 
     # can organize permissions into categories that correspond to your client's/product team's view of app.
     # suggest playing with your Ability class and the builder methods in console.
+
+    # NOTE : 'Role' and 'Product' references in following example are actually *class names*.
+    # This is a name coupling (see Permissify::Union) that can be overriden.
+    
     # add_category('Tabs', 'Tabs', ['Role'], %w(Admin Dealer Corporate Brand Merchant))
     # { 'Roles'                 => 'Admin',
     #   'Admin Users'           => 'Admin',

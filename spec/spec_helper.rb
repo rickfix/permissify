@@ -47,7 +47,7 @@ class Roleish < PermissifiedModel
 end
 
 class Userish
-  include Permissify::Aggregate
+  include Permissify::Union
   PERMISSIFIED_ASSOCIATION = :roles
   attr_accessor :roles
 end
@@ -60,4 +60,12 @@ end
 
 class PermissifiedController
   include Permissify::Controller
+  PERMISSIFY = [:current_user, :current_entity]
 end
+
+class Entityish
+  include Permissify::Union
+  PERMISSIFIED_ASSOCIATION = :products
+  attr_accessor :products
+end
+

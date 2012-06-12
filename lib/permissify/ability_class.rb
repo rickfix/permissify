@@ -2,13 +2,19 @@ module Permissify
   module AbilityClass
     
     @@abilities = []
+    @@applicabilities = []
 
     def reset
       @@abilities = []
+      @@applicabilities = []
     end
     
     def current
       @@abilities
+    end
+    
+    def current_applicabilities
+      @@applicabilities = @@applicabilities.flatten.uniq
     end
     
     def all
@@ -22,6 +28,7 @@ module Permissify
     end
 
     def add(key, category, section, action, applicability, number_of_values, position, default_values, admin_expression='', category_allows = :multiple)
+      @@applicabilities << applicability
       @@abilities <<  { :key => key, :category => category, :section => section, :action => action,
                         :applicability => applicability, :number_of_values => number_of_values, :position => position,
                         :default_values => default_values, :administration_expression => admin_expression, :category_allows => category_allows}

@@ -62,6 +62,11 @@ describe Permissify::Controller do
       end
     end
 
+    describe 'permissions_intersection' do
+      it 'should ...' do
+      end
+    end
+
     def category_action_permission_causes_allowed_to_be(permission_true_or_false, be_true_or_false, action = :view, category = :something)
       @user.should_receive(:permissions_union).and_return( {"#{category}_#{action}" => {'0' => permission_true_or_false} })
       allowed_to_should be_true_or_false, action, category

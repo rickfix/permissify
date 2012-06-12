@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Permissify::Aggregate do
+describe Permissify::Union do
 
-  describe 'permissions_union' do
-    before(:each) { new_aggregate; @union = @a.permissions_union}
+  describe 'permissions' do
+    before(:each) { new_aggregate; @union = @a.permissions}
 
     it 'should include keys for permissions specified (true or false) in any permissified model' do
       @union.keys.to_set.should == @pms.collect(&:permissions).collect(&:keys).flatten.uniq.to_set
@@ -56,12 +56,6 @@ describe Permissify::Aggregate do
     end
   end
     
-  # TODO : work out intersection specs in corp/brand/business products phase
-  # describe 'permissions_intersection' do
-  #   it 'should ...' do
-  #   end
-  # end
-
   def new_aggregate(permissified_models = default_permissified_models)
     @a = Userish.new
     @pms = permissified_models

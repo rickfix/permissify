@@ -1,6 +1,7 @@
 require 'permissify/ability_class'
-require 'permissify/aggregate'
+require 'permissify/common'
 require 'permissify/controller'
 require 'permissify/model'
 require 'permissify/model_class'
+require 'permissify/union'
 require 'permissify/roles'
