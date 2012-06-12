@@ -17,12 +17,12 @@ describe Permissify::AbilityClass do
   end
   
   describe 'get' do
-    it 'should return ability that has input key' do
-      Ability.get('tabs_admin').should == tab_admin_ability
+    it 'should return ability that has input action and category' do
+      Ability.get('admin', 'tabs').should == tab_admin_ability
     end
     
     it 'should be nil when no ability with input key exists' do
-      Ability.get('nuh_uh').should be_nil
+      Ability.get('wrong', 'tabs').should be_nil
     end
   end
       

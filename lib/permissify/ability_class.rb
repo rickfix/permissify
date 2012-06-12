@@ -22,13 +22,14 @@ module Permissify
       all.select{|a| (a[:applicability] & applicability_types) == applicability_types}
     end
 
-    def get(key)
+    def get(action, category)
+      key = key_for(action, category)
       all.select{ |ability| ability[:key] == key }.first
     end
     
-    def add(key, category, section, action, applicability, requires_any_or_all, number_of_values, position, default_values, admin_expression='', category_allows = :multiple)
+    def add(category, section, action, applicability, requires_any_or_all, number_of_values, position, default_values, admin_expression='', category_allows = :multiple)
       applicability = applicability.to_set
-      @@abilities <<  { :key => key, :category => category, :section => section, :action => action,
+      @@abilities <<  { :key => key_for(action, category), :category => category, :section => section, :action => action,
                         :applicability => applicability, :number_of_values => number_of_values, :position => position,
                         :default_values => default_values, :administration_expression => admin_expression,
                         :category_allows => category_allows, :any_or_all => requires_any_or_all}
@@ -37,10 +38,10 @@ module Permissify
     def add_category(category, section, applicability, actions = %w(View Create Update Delete), requires_any_or_all = :all?, category_allows = :multiple)
       actions = [actions] unless actions.kind_of?(Array)
       actions.collect do |action|
-        add("#{key_token(category)}_#{key_token(action)}", category, section, action, applicability, requires_any_or_all, 1, actions.index(action)+1, [false], '', category_allows)
+        add(category, section, action, applicability, requires_any_or_all, 1, actions.index(action)+1, [false], '', category_allows)
       end
     end
-
+    
     def create_permissions_hash(view_only_categories=[], remove_categories=[], applicability_types = 'Role')
       @@permissions = {}
       all_for(applicability_types).each{|permission| @@permissions[permission[:key]] = {'0' => '1'}}
@@ -64,6 +65,11 @@ module Permissify
     end
   
     private
+
+    def key_for(action, category)
+      "#{key_token(category)}_#{key_token(action)}"
+    end
+
     def key_token(token)
       token.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_')
     end
