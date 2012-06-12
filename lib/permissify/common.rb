@@ -3,6 +3,17 @@ module Permissify
 
     def allowed_to?(action, ability_category)
       (permissions["#{ability_category}_#{action}"]['0'] == true rescue false)
+      # begin
+      #   z = permissions
+      #   puts "Z: #{z.inspect}"
+      #   a = permissions["#{ability_category}_#{action}"]
+      #   puts "A: #{a.inspect}"
+      #   b = a['0']
+      #   puts "B: #{b.inspect}"
+      #   permissions["#{ability_category}_#{action}"]['0'] == true
+      # # rescue
+      # #   false
+      # end
     end
 
     def viewable?(ability_category);       allowed_to?(:view,    ability_category); end
@@ -11,6 +22,7 @@ module Permissify
     def deleteable?(ability_category);     allowed_to?(:delete,  ability_category); end
     def subscribed_to?(ability_category);  allowed_to?(:on,      ability_category); end
     
+    # TODO : try to mothball this...
     def arbitrate(aggregation, other_descriptor, key, min_or_max) # assuming all permission 'args' are integers stored as strings
       # puts "*** other_descriptor: #{other_descriptor.inspect}"
       # other_descriptor.each do |key_index, key_value|

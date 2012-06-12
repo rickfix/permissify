@@ -48,27 +48,27 @@ end
 
 class Userish
   include Permissify::Union
-  # PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
+  PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
   PERMISSIFIED_ASSOCIATION = :roles
   attr_accessor :roles
 end
 
 class UserishWithRoles
   include Permissify::Roles
-  # PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
   PERMISSIFIED_ASSOCIATION = :roles
   attr_accessor :roles
 end
 
-class PermissifiedController
-  include Permissify::Controller
-  PERMISSIFY = [:current_user, :current_entity]
-end
-
 class Entityish
   include Permissify::Union
-  # PERMISSIFIED_ABILITY_APPLICABILITY = 'Product'
+  PERMISSIFIED_ABILITY_APPLICABILITY = 'Product'
   PERMISSIFIED_ASSOCIATION = :products
   attr_accessor :products
 end
 
+class PermissifiedControllerish
+  include Permissify::Controller
+  PERMISSIFY =  [ [:current_user,     Userish::PERMISSIFIED_ABILITY_APPLICABILITY],
+                  [:current_entity, Entityish::PERMISSIFIED_ABILITY_APPLICABILITY],
+                ] # in lieu of 'include PermissifiedController'
+end

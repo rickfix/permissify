@@ -4,39 +4,37 @@ module Permissify
     include Permissify::Common
 
      def permissions # interface used by Permissfy::Common.allowed_to?
-       @permissions ||= contruct_permissions
+       @permissions ||= construct_permissions
      end
 
     private
 
-    # def contruct_permissions
-    #   e = current_entity
-    #   u = current_user
-    #   if u.nil?
-    #     e ? e.permissions_union : {}  # public pages display according to just corp/brand/merchant product permissions
-    #   else
-    #     e ? u.permissions_intersection(e) : u.permissions_union
-    #   end
-    # end
-    # 
-    # def permissions_intersection(permissified_model)
-    #   @intersection ||= construct_intersection(permissified_model)
-    #   @working_permissions = @intersection
-    # end
-
-    def contruct_permissions
-      applicable_permissions = {}
-      PERMISSIFY.each do |permissified_model_method|
+    def construct_permissions
+      construct_applicable_permissions
+      permissions = {}
+      Ability.all.each { |ability| permissions[ ability[:key] ] = authorized?(ability) }
+      # puts "*** PERMISSIONS: #{permissions.inspect} ***"
+      permissions
+    end
+    
+    def construct_applicable_permissions
+      @applicable_permissions = {}
+      self.class::PERMISSIFY.each do |permissified_model_method, applicability|
         permissified_model = send(permissified_model_method)
-        applicability = permissified_model_method.class::PERMISSIFIED_ABILITY_APPLICABILITY
-        applicable_permissions[applicability] = (permissified_model.permissions rescue {})
-      end
-
-      Ability.all.each do |ability|
-        key = ability[:key]
-        @permissions[key] = ability[:applicablity].collect{|applicable| applicable_permissions[applicable]}.all?
+        # puts "PERMISSIFY: permissified_model_method: #{permissified_model_method}, applicability: #{applicability}, permissified_model: #{permissified_model}."
+        @applicable_permissions[applicability] = permissified_model ? permissified_model.permissions : Hash.new({'0' => false})
       end
     end
-        
+    
+    def authorized?(ability, key = ability[:key], applicablity = ability[:applicability], requires_any_or_all = ability[:any_or_all])
+      # puts "AUTHORIZED?: ability: #{key}, #{applicablity}, #{requires_any_or_all}"
+      authorizations = applicablity.collect{|applicable| applicable_authorization(applicable, key) }
+      { '0' => authorizations.send(requires_any_or_all) }
+    end
+    
+    def applicable_authorization(applicable, key)
+      (permission = @applicable_permissions[applicable][key]) && permission['0'] == true
+    end
+    
   end
 end
