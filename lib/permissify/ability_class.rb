@@ -14,7 +14,7 @@ module Permissify
     end
     
     def current_applicabilities
-      @@applicabilities = @@applicabilities.flatten.uniq
+      @@applicabilities
     end
     
     def all
@@ -24,20 +24,23 @@ module Permissify
   
     def all_for(applicability_types)
       applicability_types = [applicability_types] if applicability_types.kind_of?(String)
+      applicability_types = applicability_types.to_set
       all.select{|a| (a[:applicability] & applicability_types) == applicability_types}
     end
 
-    def add(key, category, section, action, applicability, number_of_values, position, default_values, admin_expression='', category_allows = :multiple)
-      @@applicabilities << applicability
+    def add(key, category, section, action, applicability, requires_any_or_all, number_of_values, position, default_values, admin_expression='', category_allows = :multiple)
+      applicability = applicability.to_set
+      @@applicabilities << applicability unless @@applicabilities.include?(applicability)
       @@abilities <<  { :key => key, :category => category, :section => section, :action => action,
                         :applicability => applicability, :number_of_values => number_of_values, :position => position,
-                        :default_values => default_values, :administration_expression => admin_expression, :category_allows => category_allows}
+                        :default_values => default_values, :administration_expression => admin_expression,
+                        :category_allows => category_allows, :any_or_all => requires_any_or_all}
     end
 
-    def add_category(category, section, applicability=['Role'], actions=%w(View Create Update Delete), category_allows = :multiple)
+    def add_category(category, section, applicability, actions = %w(View Create Update Delete), requires_any_or_all = :all?, category_allows = :multiple)
       actions = [actions] unless actions.kind_of?(Array)
       actions.collect do |action|
-        add("#{key_token(category)}_#{key_token(action)}", category, section, action, applicability, 1, actions.index(action)+1, [false], '', category_allows)
+        add("#{key_token(category)}_#{key_token(action)}", category, section, action, applicability, requires_any_or_all, 1, actions.index(action)+1, [false], '', category_allows)
       end
     end
 

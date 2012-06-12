@@ -12,6 +12,11 @@ module Permissify
     def subscribed_to?(ability_category);  allowed_to?(:on,      ability_category); end
     
     def arbitrate(aggregation, other_descriptor, key, min_or_max) # assuming all permission 'args' are integers stored as strings
+      # puts "*** other_descriptor: #{other_descriptor.inspect}"
+      # other_descriptor.each do |key_index, key_value|
+      #   puts "*** key_index: #{key_index}, key_value: #{key_value}"
+      #   aggregation[key][key_index] = [aggregation[key][key_index], key_value.to_i].send(min_or_max) # .to_s ?
+      # end
       1.upto(other_descriptor.size-1) do |i|
         is = i.to_s
         aggregation[key][is] = [aggregation[key][is].to_i, other_descriptor[is].to_i].send(min_or_max) # .to_s ?

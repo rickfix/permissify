@@ -22,7 +22,7 @@ class Ability
         'Corporate Users'       => 'Corporate Admin',
         'Brand Users'           => 'Brand Admin',
         'Merchant Users'        => 'Merchant Admin',
-      }.each{ |category, section| add_category(category, section) }
+      }.each{ |category, section| add_category(category, section, ['Role']) }
     end
   end
 end
@@ -48,12 +48,14 @@ end
 
 class Userish
   include Permissify::Union
+  # PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
   PERMISSIFIED_ASSOCIATION = :roles
   attr_accessor :roles
 end
 
 class UserishWithRoles
   include Permissify::Roles
+  # PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
   PERMISSIFIED_ASSOCIATION = :roles
   attr_accessor :roles
 end
@@ -65,6 +67,7 @@ end
 
 class Entityish
   include Permissify::Union
+  # PERMISSIFIED_ABILITY_APPLICABILITY = 'Product'
   PERMISSIFIED_ASSOCIATION = :products
   attr_accessor :products
 end

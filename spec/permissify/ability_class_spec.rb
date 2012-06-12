@@ -11,7 +11,7 @@ describe Permissify::AbilityClass do
     describe 'and interface seed implemented' do
       it 'should return the correct number of abilities' do
         (a = Ability.all).size.should == 29
-        a.first.should == {:default_values=>[false], :applicability=>["Role"], :category=>"Tabs", :administration_expression=>"", :section=>"Tabs", :category_allows=>:multiple, :number_of_values=>1, :key=>"tabs_admin", :position=>1, :action=>"Admin"}
+        a.first.should == {:default_values=>[false], :applicability=>["Role"].to_set, :category=>"Tabs", :administration_expression=>"", :section=>"Tabs", :category_allows=>:multiple, :number_of_values=>1, :key=>"tabs_admin", :position=>1, :action=>"Admin", :any_or_all => :all?}
       end
     end
   end
@@ -32,21 +32,21 @@ describe Permissify::AbilityClass do
     describe 'add_category' do
       it 'should establish correct ability expression for fully specified category and action' do
         add_category1_section1
-        Ability.current.should == [{:section=>"section1", :category=>"category1", :action=>"view", :position=>1, :key=>"category1_view", :applicability=>["Role", "Product"], :category_allows=>:one_or_none, :administration_expression=>"", :number_of_values=>1, :default_values=>[false]}]
+        Ability.current.should == [{:section=>"section1", :category=>"category1", :action=>"view", :position=>1, :key=>"category1_view", :applicability=>["Role", "Product"].to_set, :category_allows=>:one_or_none, :administration_expression=>"", :number_of_values=>1, :default_values=>[false], :any_or_all => :all?}]
       end
 
       it 'should establish correct ability expression for category and action with defaulted values' do
-        Ability.add_category('category2', 'section2')
-        Ability.current.should == [ {:section=>"section2", :category=>"category2", :action=>"View",   :position=>1, :key=>"category2_view",   :applicability=>["Role"], :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false]},
-                                    {:section=>"section2", :category=>"category2", :action=>"Create", :position=>2, :key=>"category2_create", :applicability=>["Role"], :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false]},
-                                    {:section=>"section2", :category=>"category2", :action=>"Update", :position=>3, :key=>"category2_update", :applicability=>["Role"], :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false]},
-                                    {:section=>"section2", :category=>"category2", :action=>"Delete", :position=>4, :key=>"category2_delete", :applicability=>["Role"], :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false]} ]
+        Ability.add_category('category2', 'section2', ['Role'])
+        Ability.current.should == [ {:section=>"section2", :category=>"category2", :action=>"View",   :position=>1, :key=>"category2_view",   :applicability=>["Role"].to_set, :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false], :any_or_all => :all?},
+                                    {:section=>"section2", :category=>"category2", :action=>"Create", :position=>2, :key=>"category2_create", :applicability=>["Role"].to_set, :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false], :any_or_all => :all?},
+                                    {:section=>"section2", :category=>"category2", :action=>"Update", :position=>3, :key=>"category2_update", :applicability=>["Role"].to_set, :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false], :any_or_all => :all?},
+                                    {:section=>"section2", :category=>"category2", :action=>"Delete", :position=>4, :key=>"category2_delete", :applicability=>["Role"].to_set, :category_allows=>:multiple, :administration_expression=>"", :number_of_values=>1, :default_values=>[false], :any_or_all => :all?} ]
       end
       
       it 'should keep track of all applicability values' do
-        Ability.add('cat1_action1', 'cat1', '', 'action1', ['User', 'Product'],  1, 1, [false])
-        Ability.add('cat2_action2', 'cat2', '', 'action2', ['Product', 'Other'], 1, 1, [false])
-        Ability.current_applicabilities.to_set.should == %w(User Product Other).to_set
+        Ability.add('cat1_action1', 'cat1', '', 'action1', ['User', 'Product'].to_set, :all?, 1, 1, [false])
+        Ability.add('cat2_action2', 'cat2', '', 'action2', ['Product', 'Other'].to_set, :all?, 1, 1, [false])
+        Ability.current_applicabilities.to_set.should == [['User', 'Product'].to_set, ['Product', 'Other'].to_set].to_set
       end
     end
   end
@@ -55,7 +55,11 @@ describe Permissify::AbilityClass do
   describe 'permission builder method' do
 
     describe 'create_permissions_hash' do
-      before(:each) { Ability.reset; Ability.seed; @ability_key_set = Ability.current.collect{|a| a[:key]}.to_set }
+      before(:each) do
+        Ability.reset; 
+        Ability.seed; 
+        @ability_key_set = Ability.current.collect{|a| a[:key]}.to_set
+      end
 
       it 'should express each current ability when invoked with no arguments' do
         @ability_key_set.should == Ability.create_permissions_hash.keys.to_set
@@ -88,6 +92,6 @@ describe Permissify::AbilityClass do
   end
   
   def add_category1_section1(actions = 'view')
-    Ability.add_category('category1', 'section1', %w(Role Product), actions, :one_or_none)
+    Ability.add_category('category1', 'section1', %w(Role Product), actions, :all?, :one_or_none)
   end
 end

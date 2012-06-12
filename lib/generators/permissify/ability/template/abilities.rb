@@ -11,14 +11,15 @@ module SystemFixtures::Abilities
     # NOTE : 'Role' and 'Product' references in following example are actually *class names*.
     # This is a name coupling (see Permissify::Union) that can be overriden.
     
-    # add_category('Tabs', 'Tabs', ['Role'], %w(Admin Dealer Corporate Brand Merchant))
+    # applies_to_users_only = [User::PERMISSIFIED_ABILITY_APPLICABILITY]
+    # add_category('Tabs', 'Tabs', applies_to_users_only, %w(Admin Dealer Corporate Brand Merchant))
     # { 'Roles'                 => 'Admin',
     #   'Admin Users'           => 'Admin',
     #   'Dealer Users'          => 'Dealer Admin',
     #   'Corporate Users'       => 'Corporate Admin',
     #   'Brand Users'           => 'Brand Admin',
     #   'Merchant Users'        => 'Merchant Admin',
-    # }.each{ |category, section| add_category(category, section) }
+    # }.each{ |category, section| add_category(category, section, applies_to_users_only) }
   end
   
 end
