@@ -22,6 +22,10 @@ module Permissify
       all.select{|a| (a[:applicability] & applicability_types) == applicability_types}
     end
 
+    def get(key)
+      all.select{ |ability| ability[:key] == key }.first
+    end
+    
     def add(key, category, section, action, applicability, requires_any_or_all, number_of_values, position, default_values, admin_expression='', category_allows = :multiple)
       applicability = applicability.to_set
       @@abilities <<  { :key => key, :category => category, :section => section, :action => action,

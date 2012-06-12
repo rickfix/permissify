@@ -11,8 +11,18 @@ describe Permissify::AbilityClass do
     describe 'and interface seed implemented' do
       it 'should return the correct number of abilities' do
         (a = Ability.all).size.should == 29
-        a.first.should == {:default_values=>[false], :applicability=>["Role"].to_set, :category=>"Tabs", :administration_expression=>"", :section=>"Tabs", :category_allows=>:multiple, :number_of_values=>1, :key=>"tabs_admin", :position=>1, :action=>"Admin", :any_or_all => :all?}
+        a.first.should == tab_admin_ability
       end
+    end
+  end
+  
+  describe 'get' do
+    it 'should return ability that has input key' do
+      Ability.get('tabs_admin').should == tab_admin_ability
+    end
+    
+    it 'should be nil when no ability with input key exists' do
+      Ability.get('nuh_uh').should be_nil
     end
   end
       
@@ -41,7 +51,6 @@ describe Permissify::AbilityClass do
     end
   end
 
-  # TODO : specs for just Product, and Role and Product, applicabilities
   describe 'permission builder method' do
 
     describe 'create_permissions_hash' do
@@ -83,5 +92,9 @@ describe Permissify::AbilityClass do
   
   def add_category1_section1(actions = 'view')
     Ability.add_category('category1', 'section1', %w(Role Product), actions, :all?, :one_or_none)
+  end
+
+  def tab_admin_ability
+    {:default_values=>[false], :applicability=>["Role"].to_set, :category=>"Tabs", :administration_expression=>"", :section=>"Tabs", :category_allows=>:multiple, :number_of_values=>1, :key=>"tabs_admin", :position=>1, :action=>"Admin", :any_or_all => :all?}
   end
 end
