@@ -63,15 +63,15 @@ module Permissify
     def current_permissions_hash
       @@permissions
     end
-  
-    private
 
     def key_for(action, category)
       "#{key_token(category)}_#{key_token(action)}"
     end
+  
+    private
 
     def key_token(token)
-      token.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_')
+      token.to_s.downcase.gsub('-','_').gsub(':','').gsub('  ',' ').gsub(' ','_')
     end
     
     def view_only(category)

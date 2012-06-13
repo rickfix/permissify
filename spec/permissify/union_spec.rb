@@ -2,22 +2,6 @@ require 'spec_helper'
 
 describe Permissify::Union do
 
-  describe 'permissions' do
-    before(:each) { new_aggregate; @union = @a.permissions}
-
-    it 'should include keys for permissions specified (true or false) in any permissified model' do
-      @union.keys.to_set.should == @pms.collect(&:permissions).collect(&:keys).flatten.uniq.to_set
-    end
-
-    it 'should indicate permission for a key is true if permission set to true in any permissified object permission set' do
-      %w(p_1 p_2 p_3 p_4 p_5).each{ |permission| @union[permission]['0'].should be_true }
-    end
-
-    it 'should indicate permission for a key is false if permission not set to true in any permissified object permission set' do
-      %w(p_6 p_7 p_8).each{ |permission| @union[permission]['0'].should be_false }
-    end
-  end
-  
   describe 'allowed_to?' do
     before(:each) { new_aggregate }
 

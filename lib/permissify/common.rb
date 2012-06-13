@@ -2,18 +2,7 @@ module Permissify
   module Common
 
     def allowed_to?(action, ability_category)
-      (permissions["#{ability_category}_#{action}"]['0'] == true rescue false)
-      # begin
-      #   z = permissions
-      #   puts "Z: #{z.inspect}"
-      #   a = permissions["#{ability_category}_#{action}"]
-      #   puts "A: #{a.inspect}"
-      #   b = a['0']
-      #   puts "B: #{b.inspect}"
-      #   permissions["#{ability_category}_#{action}"]['0'] == true
-      # # rescue
-      # #   false
-      # end
+      permission(action, ability_category) == true
     end
 
     def viewable?(ability_category);       allowed_to?(:view,    ability_category); end
@@ -22,18 +11,23 @@ module Permissify
     def deleteable?(ability_category);     allowed_to?(:delete,  ability_category); end
     def subscribed_to?(ability_category);  allowed_to?(:on,      ability_category); end
     
-    # TODO : try to mothball this...
-    def arbitrate(aggregation, other_descriptor, key, min_or_max) # assuming all permission 'args' are integers stored as strings
-      # puts "*** other_descriptor: #{other_descriptor.inspect}"
-      # other_descriptor.each do |key_index, key_value|
-      #   puts "*** key_index: #{key_index}, key_value: #{key_value}"
-      #   aggregation[key][key_index] = [aggregation[key][key_index], key_value.to_i].send(min_or_max) # .to_s ?
-      # end
-      1.upto(other_descriptor.size-1) do |i|
-        is = i.to_s
-        aggregation[key][is] = [aggregation[key][is].to_i, other_descriptor[is].to_i].send(min_or_max) # .to_s ?
-      end
+    def permissible?(permissions_hash, action, category)
+      key = Ability.key_for(action, category)
+      (permission = permissions_hash[key]) && permission['0'] == true
     end
+
+    def log_permissions
+      message = "*** PermissifyController permissions: #{@permissions.inspect}"
+      defined?(logger) ? logger.debug(message) : puts(message)
+    end
+    
+    # NOTE : mothballed additional permission values...
+    # def arbitrate(aggregation, other_descriptor, key, min_or_max) # assuming all permission 'args' are integers stored as strings
+    #   1.upto(other_descriptor.size-1) do |i|
+    #     is = i.to_s
+    #     aggregation[key][is] = [aggregation[key][is].to_i, other_descriptor[is].to_i].send(min_or_max) # .to_s ?
+    #   end
+    # end
     
   end
 end
