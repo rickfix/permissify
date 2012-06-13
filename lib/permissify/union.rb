@@ -3,6 +3,10 @@ module Permissify
 
     include Permissify::Common
 
+    def permissions
+      @union ||= construct_union
+    end
+
     def permission(action, category) # interface used by Permissify::Common.allowed_to?
       @union ||= construct_union # TODO : get lazier?
       permissible?(@union, action, category)
