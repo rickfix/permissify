@@ -69,7 +69,7 @@ module PermissionsHelper
     { 'role'     => [ 'Tabs',
                       'Admin',
                       'Dealer Admin',
-                      'Corporate Admin',
+                      'Corporation Admin',
                       'Brand Admin',
                       'Merchant Admin'
                     ],

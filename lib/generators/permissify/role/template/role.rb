@@ -1,5 +1,5 @@
 class Role < ActiveRecord::Base
-  DOMAIN_TYPES = %w(Admin Dealer Corporate Brand Merchant)
+  DOMAIN_TYPES = %w(Admin Dealer Corporation Brand Merchant)
   # DOMAIN_TYPES = %w(Admin Operations CallCenter)
   include Permissify::Model
   # is_paranoid

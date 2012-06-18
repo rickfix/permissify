@@ -12,13 +12,17 @@ module SystemFixtures::Abilities
     # This is a name coupling (see Permissify::Union) that can be overriden.
     
     # applies_to_users_only = [User::PERMISSIFIED_ABILITY_APPLICABILITY]
-    # add_category('Tabs', 'Tabs', applies_to_users_only, %w(Admin Dealer Corporate Brand Merchant))
+    # add_category('Tabs', 'Tabs', applies_to_users_only, %w(Admin Dealers Corporations Brands Merchants))
     # { 'Roles'                 => 'Admin',
     #   'Admin Users'           => 'Admin',
+    #   'Dealers'               => 'Dealer Admin',
     #   'Dealer Users'          => 'Dealer Admin',
-    #   'Corporate Users'       => 'Corporate Admin',
+    #   'Corporation Users'     => 'Corporation Admin',
+    #   'Corporations'          => 'Corporation Admin',
     #   'Brand Users'           => 'Brand Admin',
+    #   'Brands'                => 'Brand Admin',
     #   'Merchant Users'        => 'Merchant Admin',
+    #   'Merchants'             => 'Merchant Admin',
     # }.each{ |category, section| add_category(category, section, applies_to_users_only) }
   end
   

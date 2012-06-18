@@ -72,5 +72,6 @@ class PermissionsController < ApplicationController
     @active_tab = 'admin'
     @active_section = 'Admin'
     @active_nav = 'Roles'
+    @current_entity = @entity = Admin.first
   end
 end

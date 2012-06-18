@@ -1,11 +1,9 @@
 <% category_permissions.each do |@permission| %>
-  <% next if (@permission[:key] == 'corporate_portal_delete') || (@permission[:key] == 'brand_portal_delete') %>
   <%= render :partial => 'permissions/color_coded_permission' %>
 <% end %>
 <table id="<%=category_name%>" style="display:none;">
   <tbody>
     <% category_permissions.each do |@permission| %>
-      <% next if (@permission[:key] == 'corporate_portal_delete') || (@permission[:key] == 'brand_portal_delete') %>
       <%= render :partial => 'permissions/permission' %>
     <% end %>
   </tbody>

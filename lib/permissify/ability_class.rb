@@ -27,6 +27,10 @@ module Permissify
       all.select{ |ability| ability[:key] == key }.first
     end
     
+    def actions(category_prefix)
+      all.collect{|a| a[:action] if a[:key].start_with?("#{key_token(category_prefix)}_")}.compact
+    end
+    
     def add(category, section, action, applicability, requires_any_or_all, number_of_values, position, default_values, admin_expression='', category_allows = :multiple)
       applicability = applicability.to_set
       @@abilities <<  { :key => key_for(action, category), :category => category, :section => section, :action => action,
