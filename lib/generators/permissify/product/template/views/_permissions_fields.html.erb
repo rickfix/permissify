@@ -1,24 +1,4 @@
 <tr>
   <td ><%= label :product, :name, "Name"%></td>
   <td><%= text_field :product, :name, :maxlength => 255, :size => 46 %></td>
-  <td style="vertical-align:bottom;"><%= required_field %></td>
-</tr>
-
-<tr>
-  <td style="vertical-align:text-top;"><%= label :product, :description, "Description" %></td>
-  <td colspan="2"><%= text_area :product, :description, :rows => 2, :columns => 60 %></td>
-</tr>
-
-<tr>
-  <td style="vertical-align:text-top;"><%= "revenuePWR Instances" %></td>
-  <td>
-	<div class="checkCont">
-		<% Instance.find(:all, :conditions => ["id in (?)", @current_user.instances.collect(&:id)]).each do |i| %>
-			<label>
-			<%= check_box_tag "#{@permissions_object.class.to_s.underscore}[instance_ids][]", i.id, @permissions_object.instances.include?(i) %>
-			<%= i.name %>
-			</label><br/>
-		<% end %>
-	</div>
-	</td>
 </tr>

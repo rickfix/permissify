@@ -1,1 +1,1 @@
-window.location = "/roles?id=<%= @permissions_object.id %>"
+window.location = "/<%= @permissions_object.class.name.downcase.pluralize %>?id=<%= @permissions_object.id %>"

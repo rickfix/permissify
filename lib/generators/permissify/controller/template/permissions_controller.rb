@@ -23,8 +23,8 @@ class PermissionsController < ApplicationController
   
   def create
     @permissions_object = @permissions_class.new
-    @permissions_object.name = params[:role][:name]
-    @permissions_object.from = params[:role][:from]
+    @permissions_object.name = params[@corresponding_class_params_key][:name]
+    @permissions_object.from = params[@corresponding_class_params_key][:from]
     @permissions_object.save
     set_permissions_object
     @response_message = @permissions_object.errors.full_messages.join(', ')
@@ -38,6 +38,7 @@ class PermissionsController < ApplicationController
     class_attributes ||= {}
     # @saved = @permissions_object.update_attributes class_attributes.merge(permission_attributes)
     attrs = class_attributes.merge(permission_attributes)
+    @permissions_object.name = attrs[:name]
     @permissions_object.permissions = attrs[:permissions]
     set_permissions_object_specific_values(attrs)
     # @permissions_object.attributes = class_attributes.merge(permission_attributes)
@@ -71,7 +72,7 @@ class PermissionsController < ApplicationController
   def set_nav
     @active_tab = 'admin'
     @active_section = 'Admin'
-    @active_nav = 'Roles'
+    @active_nav = @permissions_header
     @current_entity = @entity = Admin.first
   end
 end

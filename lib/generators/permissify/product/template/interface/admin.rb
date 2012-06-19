@@ -1,7 +1,7 @@
 module PermissifiedProductsInterface
-  module Brand
+  module Admin
     def permissible_products
-      self.corporation.products + self.products
+      []
     end
 
     include Permissify::Union

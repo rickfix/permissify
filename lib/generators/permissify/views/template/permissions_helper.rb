@@ -73,11 +73,9 @@ module PermissionsHelper
                       'Brand Admin',
                       'Merchant Admin'
                     ],
-      # 'products' => [ 'Branch and Location Portals : Settings',
-      #                 'Branch and Location Portals : Social Media',
-      #                 'Branch and Location Portals : Web Page',
-      #                 'Solutions'
-      #               ]
+      'product' =>  [ 'Social Media',
+                      'Solutions',
+                    ]
     }[@permissions_name]
   end
   

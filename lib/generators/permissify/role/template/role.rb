@@ -1,7 +1,10 @@
 class Role < ActiveRecord::Base
   DOMAIN_TYPES = %w(Admin Dealer Corporation Brand Merchant)
   # DOMAIN_TYPES = %w(Admin Operations CallCenter)
+  
   include Permissify::Model
+  PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
+  
   # is_paranoid
   # default_scope :conditions => {:deleted_at => nil}, :order => "roles.name"
   has_and_belongs_to_many :users
@@ -16,7 +19,6 @@ class Role < ActiveRecord::Base
   class << self
     include Permissify::ModelClass
     include SystemFixtures::Roles
-    PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
     
     def force_seed_id(table, permissions_model, id)
       # not sure if this is still needed, may differ depending on db adapter (written against mysql)

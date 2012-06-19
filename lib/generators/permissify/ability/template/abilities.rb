@@ -10,8 +10,8 @@ module SystemFixtures::Abilities
 
     # Can define PERMISSIFIED_ABILITY_APPLICABILITY in any model
     # users_only = [Role::PERMISSIFIED_ABILITY_APPLICABILITY]
-    # products_only  => [Product::PERMISSIFIED_ABILITY_APPLICABILITY]
-    # products_and_roles  => users_only + products_only
+    # products_only  = [Product::PERMISSIFIED_ABILITY_APPLICABILITY]
+    # products_and_roles  = users_only + products_only
     #
     # add_category('Tabs', 'Tabs', users_only, %w(Admin Dealers Corporations Brands Merchants))
     # { 'Roles'                 => 'Admin',
@@ -36,9 +36,8 @@ module SystemFixtures::Abilities
     # add_category('Facebook', 'Social Media', products_and_roles, %w(Post Comment Like Remove))
     # add_category('Twitter', 'Social Media', products_and_roles, %w(Tweet Retweet Respond Remove))
     #
-    #
-    # [ 'Online Ordering',
-    #   'Loyalty',
+    # [ 'Basic Service',
+    #   'Online Ordering',
     #   'Webpage Builder',
     #   'eGift',
     #   'Guest Management',
