@@ -1,4 +1,4 @@
-module Permissified
+module PermissifiedProductsInterface
   module Merchant
     def permissible_products
       self.corporation.products + self.brand.products + self.products

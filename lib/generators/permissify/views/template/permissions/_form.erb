@@ -1,7 +1,7 @@
 <%- set_tag @permissions_object %>
 <h1 class="pageName">Edit <%= @permissions_header %></h1>
 <%= form_tag form_path, :method => :put, :remote => true do |f| %>
-  <!-- %= error_messages_for :product_tier % -->
+  <!-- %= error_messages_for :product % -->
   <table style="border-spacing:8px;">
     <tbody>
       <%= render :partial => 'permissions_fields' %>

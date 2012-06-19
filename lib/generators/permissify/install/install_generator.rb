@@ -17,8 +17,9 @@ module Permissify
       end
 
       def copy_migrations
-        migration_template "create_roles_tables.rb", "db/migrate/create_roles_tables.rb"
-        # migration_template "create_something_else.rb", "db/migrate/create_something_else.rb"
+        %w(create_roles_tables.rb create_products_tables.rb).each do |migration_file|
+          migration_template migration_file, "db/migrate/#{migration_file}"
+        end
       end
 
       def generate_install

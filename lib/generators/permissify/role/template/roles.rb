@@ -1,5 +1,5 @@
 module SystemFixtures::Roles
-  SEEDED_ORDERED_ROLES  = ['super user', 'system admin', 'dealer admin', 'corporate admin', 'brand admin', 'merchant admin']
+  SEEDED_ORDERED_ROLES  = ['super user', 'system admin', 'dealer admin', 'corporation admin', 'brand admin', 'merchant admin']
   # SEEDED_ORDERED_ROLES  = ['super user', 'system admin', 'operations agent', 'call center agent']
   SEED_SPECIFICATIONS   = (1..SEEDED_ORDERED_ROLES.length).zip(SEEDED_ORDERED_ROLES)
 
@@ -17,7 +17,7 @@ module SystemFixtures::Roles
   def create_super_user;      create_with(1, 'Admin')     ; end
   def create_system_admin;    create_with(2, 'Admin')     ; end
   def create_dealer_admin;    create_with(3, 'Dealer')    ; end
-  def create_corporate_admin; create_with(4, 'Corporate') ; end
+  def create_corporation_admin; create_with(4, 'Corporation') ; end
   def create_brand_admin;     create_with(5, 'Brand')     ; end
   def create_merchant_admin;  create_with(6, 'Merchant')  ; end
   
@@ -32,27 +32,27 @@ module SystemFixtures::Roles
     Ability.create_permissions_hash
   end
   def system_admin_permissions
-    Ability.create_permissions_hash 'roles'
+    Ability.create_permissions_hash %w(roles products)
   end
   def dealer_admin_permissions
-    Ability.create_permissions_hash( [], %w(roles admin))
-    Ability.remove_permissions %w(tabs_admin)
+    Ability.create_permissions_hash( [], %w(roles products admin))
+    Ability.remove_permissions %w(tabs_admin dealers_create dealers_delete dealer_users_create dealer_users_delete)
   end
   
-  def corporate_admin_permissions
-    msa_permissions %w(corporate_portal_create brand_portal_create)
+  def corporation_admin_permissions
+    msa_permissions %w(corporations_create corporations_delete)
   end
   def brand_admin_permissions
-    msa_permissions %w(corporate brand_portal_create brand_portal_update)
-    Ability.remove_permissions %w(tabs_corporate)
+    msa_permissions %w(corporation brands_create brands_delete)
+    Ability.remove_permissions %w(tabs_corporations brand_products_update merchant_products_update)
   end
   def merchant_admin_permissions
-    msa_permissions %w(corporate brand)
-    Ability.remove_permissions %w(tabs_brand tabs_corporate)
+    msa_permissions %w(corporation brand)
+    Ability.remove_permissions %w(tabs_brands tabs_corporations merchant_products_update)
   end
   def msa_permissions(exclude_abilities)
-    no_abilities = exclude_abilities + %w(admin roles dealer)
+    no_abilities = exclude_abilities + %w(admin roles products dealer)
     Ability.create_permissions_hash([], no_abilities)
-    Ability.remove_permissions %w(tabs_admin tabs_dealer)
+    Ability.remove_permissions %w(tabs_admin tabs_dealers)
   end
 end

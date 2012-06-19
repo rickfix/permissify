@@ -16,7 +16,8 @@ class Role < ActiveRecord::Base
   class << self
     include Permissify::ModelClass
     include SystemFixtures::Roles
-
+    PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
+    
     def force_seed_id(table, permissions_model, id)
       # not sure if this is still needed, may differ depending on db adapter (written against mysql)
       ActiveRecord::Base.connection.execute "UPDATE #{table}s SET id=#{id} WHERE id=#{permissions_model.id};"
