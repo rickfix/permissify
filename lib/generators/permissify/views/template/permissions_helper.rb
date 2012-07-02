@@ -71,7 +71,8 @@ module PermissionsHelper
                       'Dealer Admin',
                       'Corporation Admin',
                       'Brand Admin',
-                      'Merchant Admin'
+                      'Merchant Admin',
+                      'Social Media',
                     ],
       'product' =>  [ 'Social Media',
                       'Solutions',
