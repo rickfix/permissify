@@ -69,5 +69,5 @@ class PermissifiedControllerish
   include Permissify::Controller
   PERMISSIFY =  { Userish::PERMISSIFIED_ABILITY_APPLICABILITY => :current_user,
                   Entityish::PERMISSIFIED_ABILITY_APPLICABILITY => :current_entity,
-                } # in lieu of 'include PermissifiedController'
+                }
 end

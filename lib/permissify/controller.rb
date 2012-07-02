@@ -33,10 +33,27 @@ module Permissify
     end
     
     def permissified_model_permissions(applicablity)
-      permissified_model_method = self.class::PERMISSIFY[applicablity]
+
+      # There is some app-specific glue between the *applicability* tags specified when *abilities* are created (abilities.rb)
+      #   and the ability/permission applicability that a permissifed object obtained from an app-supplied controller method governs.
+      # In more tangible terms:
+      # - the User obtained from the controller method 'current_user'
+      #   contributes permissions for abilities which apply to the 'Role' applicability tag
+      # - the merchant (or brand or ...) obtained from the controller method 'current_entity'
+      #   contributes permissions for abilities which apply to the 'Product' applicability tag
+      
+      # Define PERMISSIFY in your application_controller when your app does not conform with the conventional_permissify_map.
+      
+      permissify_map = defined?(self.class::PERMISSIFY) ? self.class::PERMISSIFY : conventional_permissify_map
+      permissified_model_method = permissify_map[applicablity]
       permissified_model = send(permissified_model_method)
       permissified_model ? permissified_model.permissions : Hash.new({})
     end
     
+    def conventional_permissify_map
+      { Role::PERMISSIFIED_ABILITY_APPLICABILITY => :current_user,
+        Product::PERMISSIFIED_ABILITY_APPLICABILITY => :current_entity,
+      }
+    end
   end
 end
