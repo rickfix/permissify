@@ -5,7 +5,7 @@ module PermissifiedProductsInterface
     end
 
     include Permissify::Union
-    PERMISSIFIED_ASSOCIATION = :permissible_products
+    PERMISSIFIED_ASSOCIATION = :products
 
   end
 end
