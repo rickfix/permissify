@@ -5,8 +5,6 @@ class Role < ActiveRecord::Base
   include Permissify::Model
   PERMISSIFIED_ABILITY_APPLICABILITY = 'Role'
   
-  # is_paranoid
-  # default_scope :conditions => {:deleted_at => nil}, :order => "roles.name"
   has_and_belongs_to_many :users
   validates_presence_of   :name, :domain_type
   validates_uniqueness_of :name
@@ -21,7 +19,7 @@ class Role < ActiveRecord::Base
     include SystemFixtures::Roles
     
     def force_seed_id(table, permissions_model, id)
-      # not sure if this is still needed, may differ depending on db adapter (written against mysql)
+      # TODO : account for different db adapters? written against mysql.
       ActiveRecord::Base.connection.execute "UPDATE #{table}s SET id=#{id} WHERE id=#{permissions_model.id};"
     end
   end
