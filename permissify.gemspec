@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
   s.name        = "permissify"
-  s.version     = "0.0.26"
+  s.version     = "0.1.0"
   s.author      = "Frederick Fix"
   s.email       = "rickfix80004@gmail.com"
   s.homepage    = "http://github.com/rickfix/permissify"
-  s.summary     = "Not so simple authorization solution for Rails."
-  s.description = "A not so simple authorization solution for Rails."
+  s.summary     = "Multi-dimensional authorization solution for Rails."
+  s.description = "An(other) Rails authorization solution which allows an app to aggregate and arbitrate authorization for permissions from multiple roles and multiple products (permissifed models)."
 
   s.files        = Dir["{lib,spec}/**/*", "[A-Z]*", "init.rb"] - ["Gemfile.lock"]
   s.require_path = "lib"
