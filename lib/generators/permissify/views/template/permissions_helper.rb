@@ -40,7 +40,7 @@ module PermissionsHelper
   def focus_and_select_first_additional_input ; "$('##{@permissions_prefix}permissions_#{@permission[:key]}_1').focus().select()" ; end
   
   def permission_values
-    @permission[:administration_expression].split('**').collect{|@token| permission_token }.join('')
+    @permission[:administration_expression].split('**').collect{|token| @token = token; permission_token }.join('')
   end
   
   def permission_token
